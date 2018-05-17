@@ -1,0 +1,185 @@
+---
+title: "R Tools"
+author: "Fabio & Simon "
+date: "2018/05/17 <br> <br> Slides: <a href='r-user-group-stuttgart.github.io/18_17_05_altright/'>https://r-user-group-stuttgart.github.io/18_17_05_altright/</a>"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F, warning = F, error = F, message = F)
+options(htmltools.dir.version = FALSE)
+```
+
+
+## Outline
+
+1. Social Media API(s)
+2. Shiny App
+3. Machine Learning
+4. Make your own Slides in R
+
+
+---
+class: center, middle
+
+## Get Started
+
+---
+class: inverse, center, middle
+
+## Social Media Data API(s)
+
+
+---
+
+## APIS
+
++ [`SocialMediaLab`](https://github.com/vosonlab/SocialMediaLab)
++ [`tuber`: Access YouTube API via R](https://github.com/soodoku/tuber)
++ [`Rfacebook`: Access to Facebook API via R](https://github.com/pablobarbera/Rfacebook)
++ [`rtweet`](https://github.com/mkearney/rtweet)
++ [`instaR`: Access to Instagram API via R](https://github.com/pablobarbera/instaR)
++ [`4chan`: ChanStats](https://github.com/Vharuck/ChanStats)
++ [`tumblR`](https://github.com/klapaukh/tumblR)
+
+
+---
+
+## `rtweet`
+
+```{r, echo = T}
+library(rtweet)
+library(dplyr)
+rt <- search_tweets("#stuttgart", n = 500, include_rts = F)
+glimpse(rt[,1:10])
+```
+
+
+---
+
+```{r, echo = T, fig.align="center"}
+gg1 <- ts_plot(rt, "1 hour") +
+  ggplot2::theme_minimal() +
+  ggplot2::labs(title = "Frequency of #stuttgart Twitter statuses from past 9 days")
+gg1
+```
+
+---
+
+```{r, echo = T, fig.align="center"}
+library(plotly)
+gg1 %>% ggplotly()
+```
+
+
+---
+
+[Highcharter](http://jkunst.com/highcharter/)
+
+```{r, echo = T, fig.align="center"}
+library(highcharter)
+rt %>% 
+  mutate(h = created_at %>% lubridate::hour()) %>%
+  group_by(h) %>% tally() %>%
+  hchart("line", hcaes(h, n)) %>% hc_title(text = "Daily Hashtag Tweets #stuttgart")
+```
+
+
+---
+
+class: inverse, center, middle
+
+## Shiny App
+
+
+---
+
+## Shiny App
+
+
+.pull-left[
+* [Starting with Shiny](http://shiny.rstudio.com/tutorial/written-tutorial/lesson1/)
+* [Building Shiny Apps Tutorial](https://deanattali.com/blog/building-shiny-apps-tutorial/)
+* [Awesome Shiny Apps for Statistics](https://github.com/huyingjie/Awesome-shiny-apps-for-statistics)
+]
+.pull-right[
+<img src = "http://hexb.in/hexagons/shiny.png" width = "200px">
+]
+
+---
+
+class: inverse, center, middle
+
+## Machine Learning
+
+
+---
+
+
+## Machine Learning Packages
+
+* [caret](https://github.com/topepo/caret) 
+    + 200 different classifiers
+    + hyperparameter tuning by defult
+* [h2o](https://github.com/h2oai/h2o-3/tree/master/h2o-r)
+    + DNN
+    + GBM
+    + XGBOOST
+* [keras](https://github.com/rstudio/keras)
+    + Recurrent Neural Networks
+    + Convolutional Neural Networks
+    + LSTMs
+
+
+---
+
+## H2O
+
+```{r, echo = T, eval = F}
+fit_gbm <- h2o.gbm(
+  x = x, 
+  y = y, 
+  training_frame = h2o_train_dtm, 
+  distribution = "bernoulli"
+)
+```
+
+
+---
+
+class: inverse, center, middle
+
+## Slides
+
+---
+
+## Slides
+
+.pull-left[
+
+* [xaringan Rmarkdown Slides](https://github.com/yihui/xaringan)
+* Netlify
+* Github
+* Rmarkdown
+
+]
+
+.pull-right[
+
+<img src = "https://img.ctolib.com/uploadImg/20170213/20170213192416_52.png" width = "200px">
+
+]
+
+---
+
+class: inverse, center, middle
+
+
+## Thanks for Listening!
+
